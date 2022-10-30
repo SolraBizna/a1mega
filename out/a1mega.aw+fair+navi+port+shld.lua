@@ -1,3 +1,11 @@
+a1megas_enabled = {
+  aw=true,
+  fair=true,
+  navi=true,
+  port=true,
+  shld=true,
+}
+
 load([[
 Triggers = {}
 TriggerHandlers = {}
@@ -29,7 +37,7 @@ for _,v in ipairs{"rifle bullet", "smg bullet"} do
    AUTOMATIC_PROJECTILES[assert(ProjectileTypes[v])] = true
 end
 local WEAPON_MODE_SELECTIONS = {
-   [WeaponTypes["assault rifle"]]={single=true,auto=true,burst=5},
+   [WeaponTypes["assault rifle"]]={single=true,auto=true,burst=4},
    [WeaponTypes["smg"]]={single=false,auto=true,burst=1},
 }
 local WEAPON_MODE_OVERLAY = 2
@@ -184,12 +192,38 @@ local DEFAULT_ITEMS = {
    [ItemTypes["pistol ammo"]] = 3,
 }
 
+a1mega = a1mega or {}
+a1mega.SHARED_ITEMS = SHARED_ITEMS
+
+function a1mega.shallow_clone(i)
+   local o = {}
+   for key,value in pairs(i) do o[key]=value end
+   return o
+end
+
+local function force_inventory_sync()
+   local old_got_item = Triggers.got_item
+   Triggers.got_item = nil
+   for player in Players() do
+      for _,item in ipairs(SHARED_ITEMS) do
+         if player.items[item] ~= Game._global_inventory[item] then
+            player.items[item] = Game._global_inventory[item]
+         end
+      end
+   end
+   Triggers.got_item = old_got_item
+end
+a1mega.force_inventory_sync = force_inventory_sync
+
 function Triggers.init(restoring_game)
    if not restoring_game and Level.rebellion then
       Game._global_inventory = {}
       for _,item in ipairs(SHARED_ITEMS) do
          Game._global_inventory[item] = 0
       end
+   elseif not restoring_game and a1megas_enabled.hardcore and Game._checkpointed_global_inventory and a1mega.forcing_restart() then
+      Game._global_inventory = a1mega.shallow_clone(Game._checkpointed_global_inventory)
+      force_inventory_sync()
    elseif Game._global_inventory == nil or not Game._gi_ticks
    or Game._gi_ticks < Game.ticks - 5 then
       Game._global_inventory = {}
@@ -208,16 +242,7 @@ function Triggers.init(restoring_game)
             end
          end
       end
-      local old_got_item = Triggers.got_item
-      Triggers.got_item = nil
-      for player in Players() do
-         for _,item in ipairs(SHARED_ITEMS) do
-            if player.items[item] ~= Game._global_inventory[item] then
-               player.items[item] = Game._global_inventory[item]
-            end
-         end
-      end
-      Triggers.got_item = old_got_item
+      force_inventory_sync()
    end
 end
 
@@ -227,6 +252,9 @@ function Triggers.idle()
    local lost_items = {}
    for player in Players() do
       if not player.dead then
+         if player.items["knife"] < 2 then
+            player.items["knife"] = 2
+         end
          for _,item in ipairs(SHARED_ITEMS) do
             if player.items[item] < Game._global_inventory[item] then
                lost_items[item] = (lost_items[item] or 0)
@@ -457,41 +485,7 @@ function Triggers.player_damaged(victim, aggressor_player, aggressor_monster,
    end
 end
 ]], "@port.lua")()
-load([=[
---[[
-Here's the deal.
-
-- Players have separate health and shield.
-- Health can absorb 75 damage. Each layer of shield can also absorb 75. (This
-means that 1x shield plus health = vanilla 1x shield, and 3x shield plus health
-   = vanilla 2x shield)
-- Players will slowly regenerate health.
-- Players who are not damaged for a while will regenerate shields, but only if
-the shield is not fully depleted.
-- Outside Rebellion, players start with a 1x shield.
-- 1x, 2x, 3x rechargers enable 1x, 2x, 3x shield and stop bleeding.
-- Activating a pattern buffer will stop bleeding.
-# BLOODY DAMAGE #
-- Bloody damage types: projectile, claws, yeti claws, shotgun
-- Players who take "bloody" damage to health start bleeding.
-- Bleeding players slowly lose health and will eventually end up at 0 health.
-- Bleeding can be stopped by recharging health or accessing any refuelling
-panel (other than oxygen) or accessing a pattern buffer
-# MELEE DAMAGE #
-- Melee damage types: crushing, fists, claws, yeti claws, hulk slap
-- Melee damage can penetrate a level 1 shield by 50%.
-# ELECTRIC DAMAGE #
-- Electric damage types: compiler, staff, fusion, defender
-- Electric damage types do double damage to shields.
-- Electric damage can disable any one "overwhelmed" layer of shield.
-- e.g. if you have temporarily gone down to 0.8x shield, and you take a hit
-from a compiler bolt, you lose your 3x. If you take a second hit, you lose your
-2x. If you are hit with shields down, your shield is disabled (until you can
-find a terminal)!
-- It does NOT disable a layer of shield that it overwhelmed *itself*... if you
-are at 1.01x and get hit, you do not lose your 2x
-]]
-
+load([[
 local LIFE_SENTINEL = 75
 local BLEEDING_OVERLAY = 1
 local OXYGEN_OVERLAY = 0
@@ -950,7 +944,7 @@ function Triggers.got_item(item, player)
       end
    end
 end
-]=], "@shld.lua")()
+]], "@shld.lua")()
 load([[
 function Triggers.idle()
    for player in Players() do

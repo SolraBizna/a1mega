@@ -3,9 +3,15 @@ if #arg < 2 then
    os.exit(1)
 end
 
-local outf = assert(io.open(arg[1], "wb"))
+local outf = assert(io.open(arg[2], "wb"))
 
-for n=2,#arg do
+outf:write("a1megas_enabled = {\n")
+for script in arg[1]:gmatch("[^+]+") do
+   outf:write("  "..script.."=true,\n")
+end
+outf:write("}\n\n")
+
+for n=3,#arg do
    local inf = assert(io.open(arg[n], "rb"))
    local a = inf:read("*a")
    inf:close()

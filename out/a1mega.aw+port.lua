@@ -1,3 +1,8 @@
+a1megas_enabled = {
+  aw=true,
+  port=true,
+}
+
 load([[
 Triggers = {}
 TriggerHandlers = {}
@@ -29,7 +34,7 @@ for _,v in ipairs{"rifle bullet", "smg bullet"} do
    AUTOMATIC_PROJECTILES[assert(ProjectileTypes[v])] = true
 end
 local WEAPON_MODE_SELECTIONS = {
-   [WeaponTypes["assault rifle"]]={single=true,auto=true,burst=5},
+   [WeaponTypes["assault rifle"]]={single=true,auto=true,burst=4},
    [WeaponTypes["smg"]]={single=false,auto=true,burst=1},
 }
 local WEAPON_MODE_OVERLAY = 2

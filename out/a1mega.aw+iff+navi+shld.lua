@@ -1,3 +1,10 @@
+a1megas_enabled = {
+  aw=true,
+  iff=true,
+  navi=true,
+  shld=true,
+}
+
 load([[
 Triggers = {}
 TriggerHandlers = {}
@@ -29,7 +36,7 @@ for _,v in ipairs{"rifle bullet", "smg bullet"} do
    AUTOMATIC_PROJECTILES[assert(ProjectileTypes[v])] = true
 end
 local WEAPON_MODE_SELECTIONS = {
-   [WeaponTypes["assault rifle"]]={single=true,auto=true,burst=5},
+   [WeaponTypes["assault rifle"]]={single=true,auto=true,burst=4},
    [WeaponTypes["smg"]]={single=false,auto=true,burst=1},
 }
 local WEAPON_MODE_OVERLAY = 2
@@ -227,41 +234,7 @@ function Triggers.idle()
    end
 end
 ]], "@navi.lua")()
-load([=[
---[[
-Here's the deal.
-
-- Players have separate health and shield.
-- Health can absorb 75 damage. Each layer of shield can also absorb 75. (This
-means that 1x shield plus health = vanilla 1x shield, and 3x shield plus health
-   = vanilla 2x shield)
-- Players will slowly regenerate health.
-- Players who are not damaged for a while will regenerate shields, but only if
-the shield is not fully depleted.
-- Outside Rebellion, players start with a 1x shield.
-- 1x, 2x, 3x rechargers enable 1x, 2x, 3x shield and stop bleeding.
-- Activating a pattern buffer will stop bleeding.
-# BLOODY DAMAGE #
-- Bloody damage types: projectile, claws, yeti claws, shotgun
-- Players who take "bloody" damage to health start bleeding.
-- Bleeding players slowly lose health and will eventually end up at 0 health.
-- Bleeding can be stopped by recharging health or accessing any refuelling
-panel (other than oxygen) or accessing a pattern buffer
-# MELEE DAMAGE #
-- Melee damage types: crushing, fists, claws, yeti claws, hulk slap
-- Melee damage can penetrate a level 1 shield by 50%.
-# ELECTRIC DAMAGE #
-- Electric damage types: compiler, staff, fusion, defender
-- Electric damage types do double damage to shields.
-- Electric damage can disable any one "overwhelmed" layer of shield.
-- e.g. if you have temporarily gone down to 0.8x shield, and you take a hit
-from a compiler bolt, you lose your 3x. If you take a second hit, you lose your
-2x. If you are hit with shields down, your shield is disabled (until you can
-find a terminal)!
-- It does NOT disable a layer of shield that it overwhelmed *itself*... if you
-are at 1.01x and get hit, you do not lose your 2x
-]]
-
+load([[
 local LIFE_SENTINEL = 75
 local BLEEDING_OVERLAY = 1
 local OXYGEN_OVERLAY = 0
@@ -720,7 +693,7 @@ function Triggers.got_item(item, player)
       end
    end
 end
-]=], "@shld.lua")()
+]], "@shld.lua")()
 load([[
 function Triggers.idle()
    for player in Players() do

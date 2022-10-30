@@ -1,3 +1,8 @@
+a1megas_enabled = {
+  iff=true,
+  port=true,
+}
+
 load([[
 Triggers = {}
 TriggerHandlers = {}

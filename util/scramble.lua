@@ -18,14 +18,15 @@ while not enabled[#components+1] do
          t[#t+1] = components[n]
       end
    end
-   local outname = "out/a1mega."..table.concat(t,"+")..".lua"
+   local enabled_scripts = table.concat(t,"+")
+   local outname = "out/a1mega."..enabled_scripts..".lua"
    io.write(outname.."\r")
    io.flush()
    io.write((" "):rep(#outname).."\r")
    for n=1,#t do
       t[n] = "src/"..t[n]..".lua"
    end
-   if not os.execute("lua util/compile.lua "..outname.." src/header.lua "..table.concat(t," ").." src/footer.lua") then
+   if not os.execute("lua util/compile.lua "..enabled_scripts.." "..outname.." src/header.lua "..table.concat(t," ").." src/footer.lua") then
       error("a compile failed!")
    end
    local n = 1

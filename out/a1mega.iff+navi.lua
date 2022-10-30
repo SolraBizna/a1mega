@@ -1,3 +1,8 @@
+a1megas_enabled = {
+  iff=true,
+  navi=true,
+}
+
 load([[
 Triggers = {}
 TriggerHandlers = {}

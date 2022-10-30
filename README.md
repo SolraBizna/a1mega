@@ -8,7 +8,7 @@ Makes automatic weapons have selective fire, and makes them more accurate when f
 
 Weapons default to automatic mode, making them fire the same way as in vanilla. Change firing modes by pulling the trigger **while holding the microphone key** (default \`).
 
-The default configuration gives the Assault Rifle a three-round burst mode and a single-shot mode, and the Submachine Gun a two-round burst mode, in addition to their vanilla automatic modes. It will apply its accuracy bonus/penalty to any weapon firing "rifle bullet" or "smg bullet".
+The default configuration gives the Assault Rifle a two-round burst mode and a single-shot mode, and the Submachine Gun a two-round burst mode, in addition to their vanilla automatic modes. It will apply its accuracy bonus/penalty to any weapon firing "rifle bullet" or "smg bullet".
 
 **Modes**: Compatible with all game modes.
 
@@ -23,6 +23,18 @@ This is great if you're playing co-op, and one player is a lot more familiar wit
 **Modes**: Co-op. Technically works in other netplay modes, but since all players share one global inventory, it would only be worth doing for laughs.
 
 **Scenarios**: This is fully compatible with the original trilogy, and with any scenario that uses the weapon and ammo item slots the same way and has the same starting inventory. You can add or remove shared status from individual items by editing the `SHARED_ITEMS` at the top of the script, and change the default inventory (so that it knows which items to un-duplicate) by editing the `DEFAULT_ITEMS` table.
+
+# `hardcore`: Consequences for death
+
+This script is designed for use in co-op. It prevents players from respawning manually; instead, they will respawn at the next level transition. In addition, if all players die, it will restart the level, restoring everyone's inventories, health, powerups, etc. to what they were when they entered the level.
+
+Consider combining with `fair` so that dead players don't lose all their weapons.
+
+**Modes**: Solo or co-op. Not very useful in solo, but maybe automatically restarting at the beginning of the level instead of at your last save is your jam.
+
+**Scenarios**: Compatible with most scenarios. Persistent script effects added by scenarios (such as Marathon: Phoenix's regenerator powerup) will not be restored when a level is restarted.
+
+Note: When restoring a level, all weapons will be refilled. There is no way to work around this in the current version of the engine.
 
 # `iff`: Identify Friend and Foe, prevents friendly fire
 
