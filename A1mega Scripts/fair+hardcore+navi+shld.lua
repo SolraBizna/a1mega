@@ -332,7 +332,7 @@ function Triggers.idle()
          for player in Players() do
             player:fade_screen("long bright")
             player.overlays[COUNTDOWN_OVERLAY].text = "Restarting..."
-            if not Game._checkpointed_players[player.name].dead then
+            if not Game._checkpointed_players or not Game._checkpointed_players[player.name] or not Game._checkpointed_players[player.name].dead then
                player:revive()
             end
          end

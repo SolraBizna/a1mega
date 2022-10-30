@@ -150,9 +150,7 @@ function Triggers.idle()
          for player in Players() do
             player:fade_screen("long bright")
             player.overlays[COUNTDOWN_OVERLAY].text = "Restarting..."
-            if not Game._checkpointed_players[player.name].dead then
-               player:revive()
-            end
+            player:revive()
          end
          RESTART_COUNTDOWN = nil
          Game._forcing_restart = get_level_id()
