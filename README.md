@@ -1,4 +1,4 @@
-This is my "Aleph One Mega Script". It consists of multiple sub-scripts, designed to play nicely together. Install by copying the `A1mega Scripts` directory to your Aleph One data folder. You choose which sub-scripts to enable by choosing the appropriate composite script from that directory. For example, to enable only the `aw` and `shld` scripts, you would choose `a1mega.aw+shld.lua` as your netscript or solo script.
+This is my "Aleph One Mega Script". It consists of multiple sub-scripts, designed to play nicely together. Install by copying or symlinking the `A1mega Scripts` directory to your Aleph One data folder. You choose which sub-scripts to enable by choosing the appropriate composite script from that directory. For example, to enable only the `aw` and `shld` scripts, you would choose `aw+shld.lua` as your netscript or solo script.
 
 Other than `hardcore`, these scripts are ancient. While I've done a lot of solo and netplay with every one of them, most of that play was more than a decade ago. Caveat player.
 
