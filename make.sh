@@ -1,4 +1,4 @@
 #!/bin/sh
 
-rm -f out/a1mega.*.lua
+rm -f "A1mega Scripts"/a1mega.*.lua
 lua util/scramble.lua
