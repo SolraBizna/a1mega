@@ -2,6 +2,8 @@ This is my "Aleph One Mega Script". It consists of multiple sub-scripts, designe
 
 Other than `hardcore`, these scripts are ancient. While I've done a lot of solo and netplay with every one of them, most of that play was more than a decade ago. Caveat player.
 
+NOTE: a1mega disables the ingame voice chat feature! Anybody out there who hasn't switched away from ingame voice chat to using Mumble or Discord, beware!
+
 # `aw`: Automatic weapon improvements
 
 Makes automatic weapons have selective fire, and makes them more accurate when fired in short bursts.
