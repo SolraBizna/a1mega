@@ -1,4 +1,5 @@
 #!/bin/sh
 
-rm -f "A1mega Scripts"/a1mega.*.lua
-lua util/scramble.lua
+set -e
+lua util/compile.lua aw+fair+fisto+hardcore+iff+navi+port+shld A1mega.lua
+echo Made: A1mega.lua

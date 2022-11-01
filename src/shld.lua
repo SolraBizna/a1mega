@@ -257,7 +257,7 @@ function Triggers.postidle()
          player:position(player.x, player.y, player._restore_z, player.polygon)
          player._restore_z = nil
       end
-      if player._health >= 0 and not player.dead and not player._virtual then
+      if player._health and player._health >= 0 and not player.dead and not player._virtual then
          player._virtual = true
          handle_shield_recharge(player)
          handle_health(player)

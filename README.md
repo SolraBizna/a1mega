@@ -1,4 +1,4 @@
-This is my "Aleph One Mega Script". It consists of multiple sub-scripts, designed to play nicely together. Install by copying or symlinking the `A1mega Scripts` directory to your Aleph One data folder. You choose which sub-scripts to enable by choosing the appropriate composite script from that directory. For example, to enable only the `aw` and `shld` scripts, you would choose `aw+shld.lua` as your netscript or solo script.
+This is my "Aleph One Mega Script". It consists of multiple sub-scripts, designed to play nicely together. Install by copying `A1mega.lua` to the appropriate Aleph One directory. If your Aleph One supports script configuration, you can enable or disable scripts that way. If not, you can edit that file by hand.
 
 Other than `hardcore`, these scripts are ancient. While I've done a lot of solo and netplay with every one of them, most of that play was more than a decade ago. Caveat player.
 
@@ -18,6 +18,8 @@ The default configuration gives the Assault Rifle a two-round burst mode and a s
 
 # `fair`: Shared ("fair") co-op inventory
 
+(incompatible with `fisto!`)
+
 Alters item pickup mechanics so that every player has an (almost) shared inventory for weapons and ammunition. Uplink chip, etc. are *not* shared, nor is the number of bullets per weapon synchronized. The Alien Weapon is not synchronized either, since its mechanics differ.
 
 This is great if you're playing co-op, and one player is a lot more familiar with the scenario than the others, and that player hogs all the secret ammo. It's also great if you die a lot and would otherwise suffer from the "disappearing ammo problem".
@@ -25,6 +27,16 @@ This is great if you're playing co-op, and one player is a lot more familiar wit
 **Modes**: Co-op. Technically works in other netplay modes, but since all players share one global inventory, it would only be worth doing for laughs.
 
 **Scenarios**: This is fully compatible with the original trilogy, and with any scenario that uses the weapon and ammo item slots the same way and has the same starting inventory. You can add or remove shared status from individual items by editing the `SHARED_ITEMS` at the top of the script, and change the default inventory (so that it knows which items to un-duplicate) by editing the `DEFAULT_ITEMS` table.
+
+# `fisto!`: Fists only
+
+(incompatible with `fair`)
+
+Prevents players from using or picking up any weapons or ammunition. Fists only. You can trigger switches from a great distance, but this works by spawning a grenade, so be careful doing it up close.
+
+**Modes**: Any. Most competitive modes won't be very fun.
+
+**Scenarios**: Compatible with any scenario, as long as its version of the grenade projectile can toggle switches, and it doesn't do *really* strange item customization.
 
 # `hardcore`: Consequences for death
 
