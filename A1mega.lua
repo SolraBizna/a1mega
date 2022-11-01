@@ -1,17 +1,17 @@
 --! configuration 1.0
---! checkbox enable_port "Allow Teleporting to Teammates"
+--! toggle enable_port "Allow Teleporting to Teammates"
 local enable_port = false
---! checkbox enable_navi "Announce Mission Completion"
+--! toggle enable_navi "Announce Mission Completion"
 local enable_navi = false
---! checkbox enable_iff "Disable Friendly Fire"
+--! toggle enable_iff "Disable Friendly Fire"
 local enable_iff = false
---! checkbox enable_aw "Enhance Automatic Weapons"
+--! toggle enable_aw "Enhance Automatic Weapons"
 local enable_aw = true
---! checkbox enable_shld "Halo-Style Shields"
+--! toggle enable_shld "Halo-Style Shields"
 local enable_shld = true
---! checkbox enable_hardcore "Hardcore Co-op Mode"
+--! toggle enable_hardcore "Hardcore Co-op Mode"
 local enable_hardcore = true
---! selector inventory_mode "Inventory Mode" "Normal" "Shared" "Fisto!"
+--! select inventory_mode "Inventory Mode" "Normal" "Shared" "Fisto!"
 local inventory_mode = 2
 --! end configuration
 
