@@ -15,19 +15,29 @@ local function should_toggle(panel)
 end
 
 function Triggers.init()
+   for item in pairs(BLACKLISTED_ITEMS) do
+      item.minimum_count = 0
+      item.maximum_count = 0
+      item.initial_count = 0
+      item.total_available = 0
+   end
+end
+
+function Triggers.idle()
    for item in Items() do
       if BLACKLISTED_ITEMS[item.type] then
          item:delete()
       end
    end
-end
-
-function Triggers.idle()
    for player in Players() do
       for k in pairs(BLACKLISTED_ITEMS) do
          if player.items[k] > 0 then
             player.items[k] = 0
          end
+      end
+      if not player.dead and player.weapons.current ~= "fist" then
+         player.action_flags.cycle_weapons_backward = true
+         player.action_flags.cycle_weapons_forward = false
       end
       if not player.dead and player.action_flags.action_trigger and player:find_action_key_target() == nil then
          local target,x,y,z,polygon = player:find_target(true)

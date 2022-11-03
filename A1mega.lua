@@ -11,19 +11,20 @@ local enable_aw = true
 local enable_shld = true
 --! toggle enable_hardcore "Hardcore Co-op Mode"
 local enable_hardcore = true
---! select inventory_mode "Inventory Mode" "Normal" "Shared" "Fisto!"
+--! select inventory_mode "Inventory Mode" "Normal" "Shared" "Shared, Unlimited" "Fisto!"
 local inventory_mode = 2
 --! end configuration
 
 a1megas_enabled = {
-   aw=enable_aw,
-   fair=inventory_mode == 2,
-   fisto=inventory_mode == 3,
-   hardcore=enable_hardcore,
-   iff=enable_iff,
-   navi=enable_navi,
-   port=enable_port,
-   shld=enable_shld,
+   aw = enable_aw,
+   fair = inventory_mode == 2 or inventory_mode == 3,
+   fairplusplus = inventory_mode == 3,
+   fisto = inventory_mode == 4,
+   hardcore = enable_hardcore,
+   iff = enable_iff,
+   navi = enable_navi,
+   port = enable_port,
+   shld = enable_shld,
 }
 
 Triggers = {}
@@ -238,6 +239,11 @@ end
 a1mega.force_inventory_sync = force_inventory_sync
 
 function Triggers.init(restoring_game)
+   if a1megas_enabled.fairplusplus then
+      for item in ItemTypes() do
+         if item.kind == "ammunition" then item.maximum_inventory = 32767 end
+      end
+   end
    if not restoring_game and Level.rebellion then
       Game._global_inventory = {}
       for _,item in ipairs(SHARED_ITEMS) do
@@ -366,19 +372,29 @@ local function should_toggle(panel)
 end
 
 function Triggers.init()
+   for item in pairs(BLACKLISTED_ITEMS) do
+      item.minimum_count = 0
+      item.maximum_count = 0
+      item.initial_count = 0
+      item.total_available = 0
+   end
+end
+
+function Triggers.idle()
    for item in Items() do
       if BLACKLISTED_ITEMS[item.type] then
          item:delete()
       end
    end
-end
-
-function Triggers.idle()
    for player in Players() do
       for k in pairs(BLACKLISTED_ITEMS) do
          if player.items[k] > 0 then
             player.items[k] = 0
          end
+      end
+      if not player.dead and player.weapons.current ~= "fist" then
+         player.action_flags.cycle_weapons_backward = true
+         player.action_flags.cycle_weapons_forward = false
       end
       if not player.dead and player.action_flags.action_trigger and player:find_action_key_target() == nil then
          local target,x,y,z,polygon = player:find_target(true)

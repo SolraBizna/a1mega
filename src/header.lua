@@ -11,19 +11,20 @@ local enable_aw = true
 local enable_shld = true
 --! toggle enable_hardcore "Hardcore Co-op Mode"
 local enable_hardcore = true
---! select inventory_mode "Inventory Mode" "Normal" "Shared" "Fisto!"
+--! select inventory_mode "Inventory Mode" "Normal" "Shared" "Shared, Unlimited" "Fisto!"
 local inventory_mode = 2
 --! end configuration
 
 a1megas_enabled = {
-   aw=enable_aw,
-   fair=inventory_mode == 2,
-   fisto=inventory_mode == 3,
-   hardcore=enable_hardcore,
-   iff=enable_iff,
-   navi=enable_navi,
-   port=enable_port,
-   shld=enable_shld,
+   aw = enable_aw,
+   fair = inventory_mode == 2 or inventory_mode == 3,
+   fairplusplus = inventory_mode == 3,
+   fisto = inventory_mode == 4,
+   hardcore = enable_hardcore,
+   iff = enable_iff,
+   navi = enable_navi,
+   port = enable_port,
+   shld = enable_shld,
 }
 
 Triggers = {}

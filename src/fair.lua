@@ -38,6 +38,11 @@ end
 a1mega.force_inventory_sync = force_inventory_sync
 
 function Triggers.init(restoring_game)
+   if a1megas_enabled.fairplusplus then
+      for item in ItemTypes() do
+         if item.kind == "ammunition" then item.maximum_inventory = 32767 end
+      end
+   end
    if not restoring_game and Level.rebellion then
       Game._global_inventory = {}
       for _,item in ipairs(SHARED_ITEMS) do
